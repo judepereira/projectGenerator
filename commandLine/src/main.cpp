@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -567,6 +565,9 @@ int main(int argc, char* argv[]){
                 }
             }
             if (!bDryRun) project->save();
+
+            // Generate CMakeLists.txt
+            if (!bDryRun) generateCMakeLists(targets[i], projectPath, addons);
 
             ofLogNotice() << "project created! ";
             ofLogNotice() << "-----------------------------------------------";

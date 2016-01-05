@@ -55,6 +55,8 @@ std::string getTargetString(ofTargetPlatform t);
 
 std::unique_ptr<baseProject> getTargetProject(ofTargetPlatform targ);
 
+void generateCMakeLists(ofTargetPlatform, std::string, vector<std::string> &);
+
 template <class T>
 inline bool isInVector(T item, vector<T> & vec){
     bool bIsInVector = false;

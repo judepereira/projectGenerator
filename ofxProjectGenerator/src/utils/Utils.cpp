@@ -24,6 +24,8 @@
 #include "xcodeProject.h"
 #include "visualStudioProject.h"
 
+#include "CMakeGenerator.h"
+
 #include "Poco/String.h"
 
 #include "Poco/HMACEngine.h"
@@ -107,7 +109,7 @@ std::string LoadFileAsString(const std::string & fn)
 
 void findandreplaceInTexfile (string fileName, std::string tFind, std::string tReplace ){
    if( ofFile::doesFileExist(fileName) ){
-	
+
 	    std::ifstream t(ofToDataPath(fileName).c_str());
 	    std::stringstream buffer;
 	    buffer << t.rdbuf();
@@ -132,7 +134,7 @@ void findandreplaceInTexfile (string fileName, std::string tFind, std::string tR
 	findandreplace(txt, tFind, tReplace);
 	std::ofstream ofile(ofToDataPath(fileName).c_str());
 	ofile.write(txt.c_str(),txt.size());
-	*/  
+	*/
 		//return 0;
    } else {
        ; // some error checking here would be good.
@@ -196,7 +198,7 @@ void getFilesRecursively(const string & path, vector < string > & fileNames){
         ofFile temp(dir.getFile(i));
         if (dir.getName(i) == ".svn" || dir.getName(i)==".git") continue; // ignore svn and git
         if (ofIsStringInString(dir.getName(i),".framework")) continue; // ignore frameworks
-        
+
         if (temp.isFile()){
             fileNames.push_back(dir.getPath(i));
         } else if (temp.isDirectory()){
@@ -244,7 +246,7 @@ void splitFromFirst(string toSplit, string deliminator, string & first, string &
 
 void getFoldersRecursively(const string & path, vector < string > & folderNames, string platform){
     ofDirectory dir;
-    
+
     if (!ofIsStringInString(path, ".framework")){
         dir.listDir(path);
         for (int i = 0; i < dir.size(); i++){
@@ -259,18 +261,18 @@ void getFoldersRecursively(const string & path, vector < string > & folderNames,
 
 
 void getFrameworksRecursively( const string & path, vector < string > & frameworks, string platform){
-    
-    
+
+
     ofDirectory dir;
     dir.listDir(path);
-    
+
     for (int i = 0; i < dir.size(); i++){
-        
+
         ofFile temp(dir.getFile(i));
-        
+
         if (temp.isDirectory()){
             //getLibsRecursively(dir.getPath(i), folderNames);
-            
+
             // on osx, framework is a directory, let's not parse it....
             string ext = "";
             string first = "";
@@ -280,7 +282,7 @@ void getFrameworksRecursively( const string & path, vector < string > & framewor
             else
                 frameworks.push_back(dir.getPath(i));
         }
-        
+
     }
 }
 
@@ -291,17 +293,17 @@ void getLibsRecursively(const string & path, vector < string > & libFiles, vecto
     ofDirectory dir;
     dir.listDir(path);
 
-        
-        
+
+
     for (int i = 0; i < dir.size(); i++){
-            
+
         vector<string> splittedPath = ofSplitString(dir.getPath(i), std::filesystem::path("/").make_preferred().string());
-            
+
         ofFile temp(dir.getFile(i));
-            
+
         if (temp.isDirectory()){
             //getLibsRecursively(dir.getPath(i), folderNames);
-                
+
             // on osx, framework is a directory, let's not parse it....
             string ext = "";
             string first = "";
@@ -319,35 +321,35 @@ void getLibsRecursively(const string & path, vector < string > & libFiles, vecto
 				}
 				getLibsRecursively(dir.getPath(i), libFiles, libLibs, platform, arch, target);
 			}
-                
+
         } else {
-                
-                
+
+
             bool platformFound = false;
-                
+
             if(platform!=""){
                 for(int j=0;j<(int)splittedPath.size();j++){
                     if(splittedPath[j]==platform){
                         platformFound = true;
                     }
                 }
-            }              
-                
+            }
+
             //string ext = ofFilePath::getFileExt(temp.getFile(i));
             string ext;
             string first;
             splitFromLast(dir.getPath(i), ".", first, ext);
-                
+
             if (ext == "a" || ext == "lib" || ext == "dylib" || ext == "so" || ext == "dll"){
                 if (platformFound){
 					libLibs.push_back({ dir.getPath(i), arch, target });
-						
+
 					//TODO: THEO hack
 					if( platform == "ios" ){ //this is so we can add the osx libs for the simulator builds
-							
+
 						string currentPath = dir.getPath(i);
-							
-						//TODO: THEO double hack this is why we need install.xml - custom ignore ofxOpenCv 
+
+						//TODO: THEO double hack this is why we need install.xml - custom ignore ofxOpenCv
 						if( currentPath.find("ofxOpenCv") == string::npos ){
 							ofStringReplace(currentPath, "ios", "osx");
 							if( ofFile::doesFileExist(currentPath) ){
@@ -359,11 +361,11 @@ void getLibsRecursively(const string & path, vector < string > & libFiles, vecto
             } else if (ext == "h" || ext == "hpp" || ext == "c" || ext == "cpp" || ext == "cc" || ext == "cxx" || ext == "m" || ext == "mm"){
                 libFiles.push_back(dir.getPath(i));
             }
-                
+
         }
-        
+
     }
-    
+
 }
 
 void fixSlashOrder(string & toFix){
@@ -513,4 +515,15 @@ unique_ptr<baseProject> getTargetProject(ofTargetPlatform targ) {
     default:
         return unique_ptr<baseProject>();
     }
+}
+
+void generateCMakeLists(ofTargetPlatform platform, std::string projectPath, vector<std::string> &addons) {
+    if (platform != OF_TARGET_OSX) {
+        ofLogNotice() << "cmake not supported for " << platform;
+        return;
+    }
+
+    ofLogNotice() << "generating cmake files";
+    CMakeGenerator cmg(platform, projectPath, addons);
+    cmg.generate();
 }

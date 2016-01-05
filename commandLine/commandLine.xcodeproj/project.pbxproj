@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0B53F62F5AB3D260CD9989DC /* LibraryBinary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 85AE4BA4B2C36DE3FDEA205B /* LibraryBinary.cpp */; };
 		1981524E5F6AF02B961F2A51 /* pugixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8620A60A3AE4156124F1E5B3 /* pugixml.cpp */; };
+		31F30DB67E7E663DB383CF55 /* CMakeGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 31F30B924CFEAAA49D347986 /* CMakeGenerator.cpp */; };
 		4C06EAFF49DAB0A2342A6823 /* ofAddon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4B09ECED1D13F0D76544CB1 /* ofAddon.cpp */; };
 		8F4438678C7D9198482E7C2A /* baseProject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B9F3E7A5103CD741ED442779 /* baseProject.cpp */; };
 		93C19E76048C3DC7D9B1A13F /* xcodeProject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 851AF667222EF52C8558BAAE /* xcodeProject.cpp */; };
@@ -53,6 +54,8 @@
 
 /* Begin PBXFileReference section */
 		0B6DF1A36467F4AD999991D0 /* visualStudioProject.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = visualStudioProject.cpp; path = ../ofxProjectGenerator/src/projects/visualStudioProject.cpp; sourceTree = SOURCE_ROOT; };
+		31F30B924CFEAAA49D347986 /* CMakeGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CMakeGenerator.cpp; path = ../ofxProjectGenerator/src/utils/CMakeGenerator.cpp; sourceTree = "<group>"; };
+		31F30F4DDDA8787E1890DF22 /* CMakeGenerator.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = CMakeGenerator.h; path = ../ofxProjectGenerator/src/utils/CMakeGenerator.h; sourceTree = "<group>"; };
 		456CA2B4C9B2F06809B2BFFA /* LibraryBinary.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = LibraryBinary.h; path = ../ofxProjectGenerator/src/utils/LibraryBinary.h; sourceTree = SOURCE_ROOT; };
 		4593D109B0918A50B53C389D /* qtcreatorproject.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = qtcreatorproject.h; path = ../ofxProjectGenerator/src/projects/qtcreatorproject.h; sourceTree = SOURCE_ROOT; };
 		4E53FCB5E7AA562E02ABC033 /* qtcreatorproject.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = qtcreatorproject.cpp; path = ../ofxProjectGenerator/src/projects/qtcreatorproject.cpp; sourceTree = SOURCE_ROOT; };
@@ -146,6 +149,8 @@
 				CC7E9EFF5EDF044D0D60E84E /* Utils.h */,
 				85AE4BA4B2C36DE3FDEA205B /* LibraryBinary.cpp */,
 				F48CCF18A98E718E487ED699 /* Utils.cpp */,
+				31F30B924CFEAAA49D347986 /* CMakeGenerator.cpp */,
+				31F30F4DDDA8787E1890DF22 /* CMakeGenerator.h */,
 			);
 			name = utils;
 			sourceTree = "<group>";
@@ -349,6 +354,7 @@
 				F748F59011CFED6B10193AF4 /* qtcreatorproject.cpp in Sources */,
 				4C06EAFF49DAB0A2342A6823 /* ofAddon.cpp in Sources */,
 				1981524E5F6AF02B961F2A51 /* pugixml.cpp in Sources */,
+				31F30DB67E7E663DB383CF55 /* CMakeGenerator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
